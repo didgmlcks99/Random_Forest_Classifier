@@ -1,19 +1,19 @@
 import csv
 
-def count_set(word_set, word_dict):
+def count_set(set_words, words_dict):
     
-    for word in word_set:
+    for word in set_words:
 
-        if word in word_dict.keys():
-            word_dict[word] += 1
+        if word in words_dict.keys():
+            words_dict[word] += 1
         else:
-            word_dict[word] = 1
+            words_dict[word] = 1
 
-def sorted_tuple(word_dict):
-    res = sorted(word_dict.items(), key=lambda x: x[1], reverse=True)
+def sort_dict(words_dict):
+    res = {key: val for key, val in sorted(words_dict.items(), key = lambda ele: ele[1], reverse = True)}
     return res
 
-word_dict = {}
+words_dict = {}
 
 with open('../data/train.negative.csv', mode ='r')as file:
     csvFile = csv.reader(file)
@@ -22,17 +22,20 @@ with open('../data/train.negative.csv', mode ='r')as file:
             if len(lines) == 0:
                 continue
             
-            word_set = lines[0].split()
+            set_words = lines[0].split()
 
-            count_set(word_set, word_dict)
+            count_set(set_words, words_dict)
+
+
+    temp = sort_dict(words_dict)
+    words_dict.clear()
+    words_dict = temp
+
+    # print(words_dict)
 
     x = 0
-
-    sorted_set = sorted_tuple(word_dict)
-    # print(sorted_set)
-
-    for i in sorted_set:
-        print(i)
+    for i in words_dict:
+        print("{" + i + ": " + str(words_dict[i]) + "}")
         
         x += 1
         if x > 200:
