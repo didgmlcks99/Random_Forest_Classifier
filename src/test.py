@@ -15,14 +15,20 @@
 #     print(splitted)
 
 
-# # importing modules
-# from nltk.stem import PorterStemmer
-# from nltk.tokenize import word_tokenize
+import test2
+import math
 
-# ps = PorterStemmer()
+test2.hello()
 
-# sentence = "Programmers program with programming languages"
-# words = word_tokenize(sentence)
+d = {'hello':2, 'bye':3}
 
-# for w in words:
-# 	print(w, " : ", ps.stem(w))
+a = list(d.keys())
+
+if 'hcy' in a:
+    print(d['hcy'])
+else:
+    print('non')
+
+
+x = math.log(float('0.012312323'))
+print(x)

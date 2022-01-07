@@ -1,44 +1,6 @@
 import csv
-from nltk.stem import PorterStemmer
+import normalizer
 from nltk.tokenize import word_tokenize
-# from nltk.stem import PorterStemmer
-# from nltk.tokenize import word_tokenize
-
-# no normalization
-# no case change
-# uppercasing
-# lowercasing
-# removing non-alphabet chars
-# removing non-alphanumeric chars
-# not removing word
-# removing high frequent word > high_freq
-# removing low frequent word < low_freq
-# smoothing = alpha_num
-def normalize_set(set_words):
-    ps = PorterStemmer()
-
-    popped = 0
-    for i in range(len(set_words)):
-        set_words[i-popped] = lowercase_word(set_words[i-popped])
-        set_words[i-popped] = rm_nonalpha(set_words[i-popped])
-        set_words[i-popped] = ps.stem(set_words[i-popped])
-
-        if not set_words[i-popped]:
-            set_words.pop(i-popped)
-            popped+=1
-
-def lowercase_word(word):
-    return word.lower()
-
-def uppercase_word(word):
-    return word.upper()
-
-def rm_nonalpha(word):
-    return ''.join(filter(str.isalpha, word))
-    
-def rm_nonalnum(word):
-    return ''.join(filter(str.isalnum, word))
-
 
 # word count then remove by frequency
 def count_set(set_words, words_dict):
@@ -96,7 +58,7 @@ def work_predictor(predictor_model, neg_text, non_text, alpha_num):
         predictor_model[word][1] = (non_count+alpha_num) / (len(non_text)+alpha_num)
 
 
-def print_info(neg_size, non_size, neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model):
+def print_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model):
 
     lines = []
     
@@ -108,28 +70,34 @@ def print_info(neg_size, non_size, neg_text, non_text, high_freq, low_freq, alph
     lines.append(("alpha number: " + str(alpha_num)))
     print("alpha number: " + str(alpha_num))
 
-    lines.append(("neg text size: " + str(neg_size)))
+    lines.append(("neg text size: " + str(len(neg_text))))
     lines.append(("number of words from neg (after normalization and stemming): " + str(len(neg_word_count))))
-    print("neg text size: " + str(neg_size))
+    print("neg text size: " + str(len(neg_text)))
     print("number of words from neg (after normalization and stemming): " + str(len(neg_word_count)))
     
-    lines.append(("non text size: " + str(non_size)))
+    lines.append(("non text size: " + str(len(non_text))))
     lines.append(("number of words from non (after normalization and stemming): " + str(len(non_word_count))))
-    print("non text size: " + str(non_size))
+    print("non text size: " + str(len(non_text)))
     print("number of words from non (after normalization and stemming): " + str(len(non_word_count)))
 
     lines.append(("total number of words in predictor model: " + str(len(predictor_model))))
     print("total number of words in predictor model: " + str(len(predictor_model)))
 
-    with open('../model/info.txt', 'w') as file:
+    with open('../model/trainer-info.txt', 'w') as file:
         file.write('\n'.join(lines))
+
+def model_csv(model):
+    with open('../model/predictor-model.csv', 'w') as file:
+        writer = csv.writer(file)
+
+        for word in model:
+            line = [word, model[word][0], model[word][1]]
+            writer.writerow(line)
+
 
 print("*** running trainer ***")
 # main
 # initialize setting
-neg_size = 0
-non_size = 0
-
 neg_text = []
 non_text = []
 
@@ -150,13 +118,10 @@ with open('../data/train.negative.csv', mode = 'r') as file:
         if len(lines) == 0:
             continue
         
-        # set_words = lines[0].split()
         set_words = word_tokenize(lines[0])
 
-        normalize_set(set_words)
+        normalizer.normalize_set(set_words)
         count_set(set_words, neg_word_count)
-
-        neg_size += 1
 
         neg_text.append(set_words)
     
@@ -174,12 +139,10 @@ with open('../data/train.non-negative.csv', mode = 'r') as file:
         if len(lines) == 0:
             continue
         
-        set_words = lines[0].split()
+        set_words = word_tokenize(lines[0])
 
-        normalize_set(set_words)
+        normalizer.normalize_set(set_words)
         count_set(set_words, non_word_count)
-
-        non_size += 1
 
         non_text.append(set_words)
     
@@ -196,11 +159,6 @@ work_predictor(predictor_model, neg_text, non_text, alpha_num)
 
 
 # write to predictor model as csv file
-with open('../model/predictor-model.csv', 'w') as file:
-    writer = csv.writer(file)
+model_csv(predictor_model)
 
-    for word in predictor_model:
-        line = [word, predictor_model[word][0], predictor_model[word][1]]
-        writer.writerow(line)
-
-print_info(neg_size, non_size, neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model)
+print_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model)
