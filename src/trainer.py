@@ -1,5 +1,4 @@
 import csv
-import nltk
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 # from nltk.stem import PorterStemmer
@@ -16,11 +15,13 @@ from nltk.tokenize import word_tokenize
 # removing low frequent word < low_freq
 # smoothing = alpha_num
 def normalize_set(set_words):
-    
+    ps = PorterStemmer()
+
     popped = 0
     for i in range(len(set_words)):
         set_words[i-popped] = lowercase_word(set_words[i-popped])
         set_words[i-popped] = rm_nonalpha(set_words[i-popped])
+        set_words[i-popped] = ps.stem(set_words[i-popped])
 
         if not set_words[i-popped]:
             set_words.pop(i-popped)
