@@ -1,4 +1,9 @@
 import csv
+import nltk
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+# from nltk.stem import PorterStemmer
+# from nltk.tokenize import word_tokenize
 
 # no normalization
 # no case change
@@ -91,20 +96,32 @@ def work_predictor(predictor_model, neg_text, non_text, alpha_num):
 
 
 def print_info(neg_size, non_size, neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model):
+
+    lines = []
+    
+    lines.append(("stopword frequency upper bound: " + str(high_freq)))
+    lines.append(("stopword frequency lower bound: " + str(low_freq)))
     print("stopword frequency upper bound: " + str(high_freq))
     print("stopword frequency lower bound: " + str(low_freq))
 
+    lines.append(("alpha number: " + str(alpha_num)))
     print("alpha number: " + str(alpha_num))
 
+    lines.append(("neg text size: " + str(neg_size)))
+    lines.append(("number of words from neg (after normalization and stemming): " + str(len(neg_word_count))))
     print("neg text size: " + str(neg_size))
-    print("number of words from neg (after normalization): " + str(len(neg_word_count)))
+    print("number of words from neg (after normalization and stemming): " + str(len(neg_word_count)))
     
+    lines.append(("non text size: " + str(non_size)))
+    lines.append(("number of words from non (after normalization and stemming): " + str(len(non_word_count))))
     print("non text size: " + str(non_size))
-    print("number of words from non (after normalization): " + str(len(non_word_count)))
+    print("number of words from non (after normalization and stemming): " + str(len(non_word_count)))
 
+    lines.append(("total number of words in predictor model: " + str(len(predictor_model))))
     print("total number of words in predictor model: " + str(len(predictor_model)))
 
-    return
+    with open('../model/info.txt', 'w') as file:
+        file.write('\n'.join(lines))
 
 print("*** running trainer ***")
 # main
@@ -132,7 +149,8 @@ with open('../data/train.negative.csv', mode = 'r') as file:
         if len(lines) == 0:
             continue
         
-        set_words = lines[0].split()
+        # set_words = lines[0].split()
+        set_words = word_tokenize(lines[0])
 
         normalize_set(set_words)
         count_set(set_words, neg_word_count)

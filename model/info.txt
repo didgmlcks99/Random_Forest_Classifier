@@ -1,0 +1,8 @@
+stopword frequency upper bound: 2500
+stopword frequency lower bound: 5
+alpha number: 1
+neg text size: 8823
+number of words from neg (after normalization): 2230
+non text size: 5275
+number of words from non (after normalization): 1477
+total number of words in predictor model: 2493
