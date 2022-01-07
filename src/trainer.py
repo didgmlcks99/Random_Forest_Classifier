@@ -1,5 +1,6 @@
 import csv
 import normalizer
+import modelizer
 from nltk.tokenize import word_tokenize
 
 # word count then remove by frequency
@@ -58,43 +59,6 @@ def work_predictor(predictor_model, neg_text, non_text, alpha_num):
         predictor_model[word][1] = (non_count+alpha_num) / (len(non_text)+alpha_num)
 
 
-def print_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model):
-
-    lines = []
-    
-    lines.append(("stopword frequency upper bound: " + str(high_freq)))
-    lines.append(("stopword frequency lower bound: " + str(low_freq)))
-    print("stopword frequency upper bound: " + str(high_freq))
-    print("stopword frequency lower bound: " + str(low_freq))
-
-    lines.append(("alpha number: " + str(alpha_num)))
-    print("alpha number: " + str(alpha_num))
-
-    lines.append(("neg text size: " + str(len(neg_text))))
-    lines.append(("number of words from neg (after normalization and stemming): " + str(len(neg_word_count))))
-    print("neg text size: " + str(len(neg_text)))
-    print("number of words from neg (after normalization and stemming): " + str(len(neg_word_count)))
-    
-    lines.append(("non text size: " + str(len(non_text))))
-    lines.append(("number of words from non (after normalization and stemming): " + str(len(non_word_count))))
-    print("non text size: " + str(len(non_text)))
-    print("number of words from non (after normalization and stemming): " + str(len(non_word_count)))
-
-    lines.append(("total number of words in predictor model: " + str(len(predictor_model))))
-    print("total number of words in predictor model: " + str(len(predictor_model)))
-
-    with open('../model/trainer-info.txt', 'w') as file:
-        file.write('\n'.join(lines))
-
-def model_csv(model):
-    with open('../model/predictor-model.csv', 'w') as file:
-        writer = csv.writer(file)
-
-        for word in model:
-            line = [word, model[word][0], model[word][1]]
-            writer.writerow(line)
-
-
 print("*** running trainer ***")
 # main
 # initialize setting
@@ -131,6 +95,9 @@ with open('../data/train.negative.csv', mode = 'r') as file:
 
     stopword_rm(neg_word_count, high_freq, low_freq)
 
+    modelizer.texts_data(neg_text, '../model/train.negative.texts.txt')
+    modelizer.count_data(neg_word_count, '../model/train.negative.count.csv')
+
 # non - word count
 with open('../data/train.non-negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -152,6 +119,9 @@ with open('../data/train.non-negative.csv', mode = 'r') as file:
 
     stopword_rm(non_word_count, high_freq, low_freq)
 
+    modelizer.texts_data(non_text, '../model/train.non-negative.texts.txt')
+    modelizer.count_data(non_word_count, '../model/train.non-negative.count.csv')
+
 
 # make predictor model table (first with words: [neg-perc, non-perc])
 predictor_model = init_predictor(neg_word_count, non_word_count)
@@ -159,6 +129,8 @@ work_predictor(predictor_model, neg_text, non_text, alpha_num)
 
 
 # write to predictor model as csv file
-model_csv(predictor_model)
+modelizer.model_csv(predictor_model)
 
-print_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, prediction_model)
+modelizer.print_train_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, predictor_model)
+
+exec(open("predictor.py").read())

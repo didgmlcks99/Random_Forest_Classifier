@@ -1,7 +1,0 @@
-number of word in model: 2077
-number of neg text: 91
-number of non text: 88
-number of text right for neg: 91
-percent for neg: 100.0%
-number of text right for neg: 38.63636363636363
-percent for non: 34%
