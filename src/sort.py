@@ -19,13 +19,12 @@ with open('../data/train.negative.csv', mode ='r')as file:
     csvFile = csv.reader(file)
 
     for lines in csvFile:
-            if len(lines) == 0:
-                continue
-            
-            set_words = lines[0].split()
+        if len(lines) == 0:
+            continue
+        
+        set_words = lines[0].split()
 
-            count_set(set_words, words_dict)
-
+        count_set(set_words, words_dict)
 
     temp = sort_dict(words_dict)
     words_dict.clear()
