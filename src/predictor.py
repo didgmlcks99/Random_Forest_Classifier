@@ -10,6 +10,7 @@ def predict(model, neg_text, non_text):
     neg_true = 0
     non_true = 0
 
+    # neg
     for text in neg_text:
         neg_val = 0.0
         non_val = 0.0
@@ -22,6 +23,7 @@ def predict(model, neg_text, non_text):
         if neg_val > non_val:
             neg_true += 1
     
+    # non
     for text in non_text:
         neg_val = 0
         non_val = 0
@@ -40,7 +42,7 @@ def predict(model, neg_text, non_text):
     return [neg_perc, neg_true, non_perc, non_true]
 
 
-print("*** running predictor ***")
+
 # main
 # initialize setting
 neg_text = []

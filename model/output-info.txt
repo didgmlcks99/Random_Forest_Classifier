@@ -1,0 +1,969 @@
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1
+neg text size: 8823
+number of words from neg (after normalization and stemming): 7787
+non text size: 5275
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 36
+percent for non: 40.909090909090914%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 67
+percent for non: 76.13636363636364%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 62
+percent for non: 70.45454545454545%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 55
+percent for non: 62.5%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 16
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 55
+percent for non: 62.5%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 32
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 90
+percent for neg: 98.9010989010989%
+number of text right for neg: 58
+percent for non: 65.9090909090909%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 64
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 89
+percent for neg: 97.8021978021978%
+number of text right for neg: 59
+percent for non: 67.04545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 128
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 88
+percent for neg: 96.7032967032967%
+number of text right for neg: 63
+percent for non: 71.5909090909091%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 256
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 85
+percent for neg: 93.4065934065934%
+number of text right for neg: 67
+percent for non: 76.13636363636364%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 512
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 84
+percent for neg: 92.3076923076923%
+number of text right for neg: 70
+percent for non: 79.54545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1024
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 80
+percent for neg: 87.91208791208791%
+number of text right for neg: 70
+percent for non: 79.54545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2048
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 76
+percent for neg: 83.51648351648352%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4096
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8192
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 16384
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 32768
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 65536
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1
+neg text size: 8823
+number of words from neg (after normalization and stemming): 7787
+non text size: 5275
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 36
+percent for non: 40.909090909090914%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 67
+percent for non: 76.13636363636364%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 62
+percent for non: 70.45454545454545%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 55
+percent for non: 62.5%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 16
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 91
+percent for neg: 100.0%
+number of text right for neg: 55
+percent for non: 62.5%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 32
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 90
+percent for neg: 98.9010989010989%
+number of text right for neg: 58
+percent for non: 65.9090909090909%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 64
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 89
+percent for neg: 97.8021978021978%
+number of text right for neg: 59
+percent for non: 67.04545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 128
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 88
+percent for neg: 96.7032967032967%
+number of text right for neg: 63
+percent for non: 71.5909090909091%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 256
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 85
+percent for neg: 93.4065934065934%
+number of text right for neg: 67
+percent for non: 76.13636363636364%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 512
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 84
+percent for neg: 92.3076923076923%
+number of text right for neg: 70
+percent for non: 79.54545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1024
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 80
+percent for neg: 87.91208791208791%
+number of text right for neg: 70
+percent for non: 79.54545454545455%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2048
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 76
+percent for neg: 83.51648351648352%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4096
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8192
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 16384
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 32768
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 65536
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 131072
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 262144
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 524288
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1048576
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2097152
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4194304
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8388608
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 16777216
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 33554432
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 67108864
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 134217728
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 268435456
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 536870912
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 1073741824
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 2147483648
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 74
+percent for neg: 81.31868131868131%
+number of text right for neg: 71
+percent for non: 80.68181818181817%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 4294967296
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 72
+percent for neg: 79.12087912087912%
+number of text right for neg: 72
+percent for non: 81.81818181818183%
+
+
+*************** trainer info ***************
+stopword frequency upper bound: 6000
+stopword frequency lower bound: 0
+alpha number: 8589934592
+neg text size: 91
+number of words from neg (after normalization and stemming): 7787
+non text size: 88
+number of words from non (after normalization and stemming): 6394
+total number of words in predictor model: 11115
+*************** tester info ***************
+number of word in model: 11115
+number of neg text: 91
+number of non text: 88
+number of text right for neg: 72
+percent for neg: 79.12087912087912%
+number of text right for neg: 73
+percent for non: 82.95454545454545%
+
+
