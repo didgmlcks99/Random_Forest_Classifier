@@ -34,27 +34,26 @@ def init_predictor(neg_words, non_words):
     
     return model_table
 
-def work_predictor(predictor_model, neg_text, non_text, alpha_num):
-
+def work_predictor(predictor_model, train_neg_texts, train_non_texts, alpha_num):
+    print("calculating probablities by bayes theorem")
     for word in predictor_model:
         neg_count = 0
         non_count = 0
-
-        for text in neg_text:
+        for text in train_neg_texts:
             if word in text:
                 neg_count += 1
         
-        for text in non_text:
+        for text in train_non_texts:
             if word in text:
                 non_count += 1
-        
-        predictor_model[word][0] = (neg_count+alpha_num) / (len(neg_text)+alpha_num)
-        predictor_model[word][1] = (non_count+alpha_num) / (len(non_text)+alpha_num)
-
+    
+        predictor_model[word][0] = (neg_count+alpha_num) / (len(train_neg_texts)+alpha_num)
+        predictor_model[word][1] = (non_count+alpha_num) / (len(train_non_texts)+alpha_num)
+    print("calculating done")
 
 def get_normalized_data():
-    neg_text = []
-    non_text = []
+    train_neg_texts = []
+    train_non_texts = []
 
     neg_word_count = {}
     non_word_count = {}
@@ -72,7 +71,7 @@ def get_normalized_data():
             normalizer.normalize_set(set_words)
             count_set(set_words, neg_word_count)
 
-            neg_text.append(set_words)
+            train_neg_texts.append(set_words)
 
     # non - word count
     with open('../data/train.non-negative.csv', mode = 'r') as file:
@@ -87,15 +86,36 @@ def get_normalized_data():
             normalizer.normalize_set(set_words)
             count_set(set_words, non_word_count)
 
-            non_text.append(set_words)
+            train_non_texts.append(set_words)
     
-    modelizer.texts_data(neg_text, '../model/train.negative.texts.txt')
-    modelizer.texts_data(non_text, '../model/train.non-negative.texts.txt')
+    modelizer.texts_data(train_neg_texts, '../model/train.negative.texts.txt')
+    modelizer.texts_data(train_non_texts, '../model/train.non-negative.texts.txt')
     
-    return [neg_text, neg_word_count, non_text, non_word_count]
+    return [train_neg_texts, neg_word_count, train_non_texts, non_word_count]
 
+def fin_lim(temp_predictor_model, high_freq, low_freq, neg_word_count, non_word_count):
+    fin_stop(temp_predictor_model, neg_word_count, high_freq, low_freq)
+    fin_stop(temp_predictor_model, non_word_count, high_freq, low_freq)
 
-def lim_freq(neg_word_count, non_word_count, case):
+    modelizer.count_data(neg_word_count, '../model/train.negative.count.csv')
+    modelizer.count_data(non_word_count, '../model/train.non-negative.count.csv')
+    modelizer.model_csv(predictor_model)
+    
+def fin_stop(temp_predictor_model, words_dict, high_freq, low_freq):
+
+    words_list = list(words_dict.keys())
+
+    for word in words_list:
+        if words_dict[word] >= high_freq:
+            words_dict.pop(word)
+            if word in temp_predictor_model.keys():
+                temp_predictor_model.pop(word)
+        elif words_dict[word] <= low_freq:
+            words_dict.pop(word)
+            if word in temp_predictor_model.keys():
+                temp_predictor_model.pop(word)
+
+def lim_freq(predictor_model, neg_word_count, non_word_count, case):
     neg_keys = list(neg_word_count.keys())
     non_keys = list(non_word_count.keys())
 
@@ -113,11 +133,12 @@ def lim_freq(neg_word_count, non_word_count, case):
 
     bound = get_bound(neg_bound, non_bound, case)
 
-    stopword_rm(neg_word_count, bound)
-    stopword_rm(non_word_count, bound)
+    stopword_rm(predictor_model, neg_word_count, bound)
+    stopword_rm(predictor_model, non_word_count, bound)
 
     modelizer.count_data(neg_word_count, '../model/train.negative.count.csv')
     modelizer.count_data(non_word_count, '../model/train.non-negative.count.csv')
+    modelizer.model_csv(predictor_model)
 
     return bound
 
@@ -143,20 +164,21 @@ def get_bound(neg_bound, non_bound, case):
     
     return bound
 
-def stopword_rm(words_dict, bound):
+def stopword_rm(predictor_model, words_dict, bound):
     words_list = list(words_dict.keys())
 
     for word in words_list:
         if words_dict[word] == bound:
             words_dict.pop(word)
+            if word in predictor_model.keys():
+                predictor_model.pop(word)
         else:
             break
 
-
-def modelize(alpha_num, neg_text, non_text, neg_word_count, non_word_count):
+def modelize(alpha_num, train_neg_texts, train_non_texts, neg_word_count, non_word_count):
     # make predictor model table (first with words: [neg-perc, non-perc])
     predictor_model = init_predictor(neg_word_count, non_word_count)
-    work_predictor(predictor_model, neg_text, non_text, alpha_num)
+    work_predictor(predictor_model, train_neg_texts, train_non_texts, alpha_num)
 
     # write to predictor model as csv file
     modelizer.model_csv(predictor_model)
@@ -165,7 +187,7 @@ def modelize(alpha_num, neg_text, non_text, neg_word_count, non_word_count):
 
 def init_test_analysis(analysis_name):
     directories = analysis_name.split('/')
-    splits = directories[2].split('.')
+    splits = directories[3].split('.')
     set_name = splits[0]
 
     with open(analysis_name, 'w') as file:
@@ -202,21 +224,46 @@ def make_temp_count(neg_word_count, non_word_count, case):
 # initialize setting
 start = timeit.default_timer()
 
-high_freq = 6000
+high_freq = 100000000
 low_freq = 0
 alpha_num = 1
 
 data = get_normalized_data()
 
-neg_text = data[0]
-non_text = data[2]
+train_neg_texts = data[0]
+train_non_texts = data[2]
 
 neg_word_count = data[1]
 non_word_count = data[3]
 
+temp = make_temp_count(neg_word_count, non_word_count, True)
+predictor_model = modelize(alpha_num, train_neg_texts, train_non_texts, neg_word_count, non_word_count)
+
+# # train main
+# name = '../analysis/main/main.csv'
+# init_test_analysis(name)
+
+# case = True
+
+# temp_neg_count = temp[0]
+# temp_non_count = temp[1]
+# temp_predictor_model = copy.deepcopy(predictor_model)
+
+# fin_lim(temp_predictor_model, 250, 0, temp_neg_count, temp_non_count)
+# direct_test(name, '250/1')
+
+# modelizer.print_train_info(train_neg_texts, train_non_texts, 250, 0, 1, temp_neg_count, temp_non_count, temp_predictor_model)
+# exec(open("predictor.py").read())
+# print()
+
+# stop = timeit.default_timer()
+# print('Time: ', stop - start)
+
+# exit()
+
 
 # train high freq
-name = '../analysis/high-freq.csv'
+name = '../analysis/case4/high-freq.csv'
 init_test_analysis(name)
 
 case = True
@@ -224,20 +271,20 @@ temp = make_temp_count(neg_word_count, non_word_count, case)
 temp_neg_count = temp[0]
 temp_non_count = temp[1]
 
+temp_predictor_model = copy.deepcopy(predictor_model)
 while True:
-    bound = lim_freq(temp_neg_count, temp_non_count, case)
+    bound = lim_freq(temp_predictor_model, temp_neg_count, temp_non_count, case)
     direct_test(name, bound)
-    predictor_model = modelize(alpha_num, neg_text, non_text, temp_neg_count, temp_non_count)
-
-    if not predictor_model:
+    
+    if not temp_predictor_model:
         break
-
-    modelizer.print_train_info(neg_text, non_text, bound, low_freq, alpha_num, temp_neg_count, temp_non_count, predictor_model)
+    
+    modelizer.print_train_info(train_neg_texts, train_non_texts, bound, low_freq, alpha_num, temp_neg_count, temp_non_count, temp_predictor_model)
     exec(open("predictor.py").read())
     print()
 
 # train low freq
-name = '../analysis/low-freq.csv'
+name = '../analysis/case4/low-freq.csv'
 init_test_analysis(name)
 
 case = False
@@ -245,20 +292,21 @@ temp = make_temp_count(neg_word_count, non_word_count, case)
 temp_neg_count = temp[0]
 temp_non_count = temp[1]
 
+temp_predictor_model = copy.deepcopy(predictor_model)
 while True:
-    bound = lim_freq(temp_neg_count, temp_non_count, case)
+    bound = lim_freq(temp_predictor_model, temp_neg_count, temp_non_count, case)
     direct_test(name, bound)
-    predictor_model = modelize(alpha_num, neg_text, non_text, temp_neg_count, temp_non_count)
-
-    if not predictor_model:
+    
+    if not temp_predictor_model:
         break
-
-    modelizer.print_train_info(neg_text, non_text, high_freq, bound, alpha_num, temp_neg_count, temp_non_count, predictor_model)
+    
+    modelizer.print_train_info(train_neg_texts, train_non_texts, high_freq, bound, alpha_num, temp_neg_count, temp_non_count, temp_predictor_model)
     exec(open("predictor.py").read())
     print()
 
+
 # train alpha num
-name = '../analysis/alpha_num.csv'
+name = '../analysis/case4/alpha-num.csv'
 init_test_analysis(name)
 
 case = True
@@ -266,19 +314,15 @@ temp = make_temp_count(neg_word_count, non_word_count, case)
 temp_neg_count = temp[0]
 temp_non_count = temp[1]
 
-bound = lim_freq(temp_neg_count, temp_non_count, case)
+temp_predictor_model = copy.deepcopy(predictor_model)
+bound = lim_freq(temp_predictor_model, temp_neg_count, temp_non_count, case)
 
 power = 1
 alph = 1
-while alph < 10000000000:
+while alph < 100000000000:
     direct_test(name, alph)
 
-    predictor_model = modelize(alph, neg_text, non_text, temp_neg_count, temp_non_count)
-
-    if not predictor_model:
-        break
-
-    modelizer.print_train_info(neg_text, non_text, high_freq, low_freq, alph, temp_neg_count, temp_non_count, predictor_model)
+    modelizer.print_train_info(train_neg_texts, train_non_texts, high_freq, low_freq, alph, temp_neg_count, temp_non_count, temp_predictor_model)
     exec(open("predictor.py").read())
     print()
 

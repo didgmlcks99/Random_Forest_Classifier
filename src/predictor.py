@@ -4,14 +4,15 @@ import modelizer
 import math
 from nltk.tokenize import word_tokenize
 
-def predict(model, neg_text, non_text):
+def predict(model, test_neg_texts, test_non_texts):
     model_words = list(model.keys())
 
     neg_true = 0
     non_true = 0
 
+    i = 1
     # neg
-    for text in neg_text:
+    for text in test_neg_texts:
         neg_val = 0.0
         non_val = 0.0
 
@@ -22,9 +23,14 @@ def predict(model, neg_text, non_text):
         
         if neg_val > non_val:
             neg_true += 1
+            print("neg " + str(i) + " : correct")
+        else:
+            print("neg " + str(i) + " : wrong")
+        i += 1
     
+    i = 1
     # non
-    for text in non_text:
+    for text in test_non_texts:
         neg_val = 0
         non_val = 0
 
@@ -35,9 +41,13 @@ def predict(model, neg_text, non_text):
         
         if non_val > neg_val:
             non_true += 1
+            print("non " + str(i) + " : correct")
+        else:
+            print("non " + str(i) + " : wrong")
+        i += 1
     
-    neg_perc = (neg_true / len(neg_text))*100
-    non_perc = (non_true / len(non_text))*100
+    neg_perc = (neg_true / len(test_neg_texts))*100
+    non_perc = (non_true / len(test_non_texts))*100
 
     return [neg_perc, neg_true, non_perc, non_true]
 
@@ -45,8 +55,8 @@ def predict(model, neg_text, non_text):
 
 # main
 # initialize setting
-neg_text = []
-non_text = []
+test_neg_texts = []
+test_non_texts = []
 model = {}
 
 with open('../data/test.negative.csv', mode = 'r') as file:
@@ -57,12 +67,9 @@ with open('../data/test.negative.csv', mode = 'r') as file:
             continue
         
         set_words = word_tokenize(lines[0])
-
         normalizer.normalize_set(set_words)
-
-        neg_text.append(set_words)
-    
-    modelizer.texts_data(neg_text, '../model/test.negative.texts.txt')
+        test_neg_texts.append(set_words)
+    modelizer.texts_data(test_neg_texts, '../model/test.negative.texts.txt')
 
 with open('../data/test.non-negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -72,12 +79,9 @@ with open('../data/test.non-negative.csv', mode = 'r') as file:
             continue
         
         set_words = word_tokenize(lines[0])
-
         normalizer.normalize_set(set_words)
-
-        non_text.append(set_words)
-    
-    modelizer.texts_data(non_text, '../model/test.non-negative.texts.txt')
+        test_non_texts.append(set_words)
+    modelizer.texts_data(test_non_texts, '../model/test.non-negative.texts.txt')
 
 with open('../model/predictor-model.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -87,7 +91,7 @@ with open('../model/predictor-model.csv', mode = 'r') as file:
             continue
 
         model[lines[0]] = [float(lines[1]), float(lines[2])]
+        
+result = predict(model, test_neg_texts, test_non_texts)
 
-result = predict(model, neg_text, non_text)
-
-modelizer.print_result_info(neg_text, non_text, model, result)
+modelizer.print_result_info(test_neg_texts, test_non_texts, model, result)

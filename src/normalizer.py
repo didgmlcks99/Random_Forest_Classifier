@@ -19,6 +19,7 @@ def normalize_set(set_words):
         set_words[i-popped] = rm_nonalpha(set_words[i-popped])
         set_words[i-popped] = ps.stem(set_words[i-popped])
 
+        # emptied word
         if not set_words[i-popped]:
             set_words.pop(i-popped)
             popped+=1
