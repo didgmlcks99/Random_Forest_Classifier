@@ -66,7 +66,11 @@ def get_normalized_data():
             if len(lines) == 0:
                 continue
             
-            set_words = word_tokenize(lines[0])
+            # @Usairway hello = ['@', 'Usairway', 'hello']
+            # set_words = word_tokenize(lines[0])
+            
+            # @Usairway hello = ['@Usairway', 'hello']
+            set_words = lines[0].split()
 
             normalizer.normalize_set(set_words)
             count_set(set_words, neg_word_count)
@@ -81,7 +85,11 @@ def get_normalized_data():
             if len(lines) == 0:
                 continue
             
-            set_words = word_tokenize(lines[0])
+            # @Usairway hello = ['@', 'Usairway', 'hello']
+            # set_words = word_tokenize(lines[0])
+            
+            # @Usairway hello = ['@Usairway', 'hello']
+            set_words = lines[0].split()
 
             normalizer.normalize_set(set_words)
             count_set(set_words, non_word_count)
