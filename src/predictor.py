@@ -7,10 +7,11 @@ from nltk.tokenize import word_tokenize
 def predict(model, test_neg_texts, test_non_texts):
     model_words = list(model.keys())
 
-    neg_true = 0
-    non_true = 0
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
 
-    i = 1
     # neg
     for text in test_neg_texts:
         neg_val = 0.0
@@ -22,13 +23,10 @@ def predict(model, test_neg_texts, test_non_texts):
                 non_val += math.log(model[word][1])
         
         if neg_val > non_val:
-            neg_true += 1
-            print("neg " + str(i) + " : correct")
+            tp += 1
         else:
-            print("neg " + str(i) + " : wrong")
-        i += 1
+            fn += 1
     
-    i = 1
     # non
     for text in test_non_texts:
         neg_val = 0
@@ -40,16 +38,15 @@ def predict(model, test_neg_texts, test_non_texts):
                 non_val += math.log(model[word][1])
         
         if non_val > neg_val:
-            non_true += 1
-            print("non " + str(i) + " : correct")
+            tn += 1
         else:
-            print("non " + str(i) + " : wrong")
-        i += 1
-    
-    neg_perc = (neg_true / len(test_neg_texts))*100
-    non_perc = (non_true / len(test_non_texts))*100
+            fp += 1
 
-    return [neg_perc, neg_true, non_perc, non_true]
+    acc = (tp + tn) / (tp + fn + tn + fp)
+    prec = tp / (tp + fp)
+    rec = tp / (tp + fn)
+
+    return [tp, tn, fp, fn, acc, prec, rec]
 
 
 
@@ -66,10 +63,20 @@ with open('../data/test.negative.csv', mode = 'r') as file:
         if len(lines) == 0:
             continue
         
-        set_words = word_tokenize(lines[0])
-        normalizer.normalize_set(set_words)
-        test_neg_texts.append(set_words)
-    modelizer.texts_data(test_neg_texts, '../model/test.negative.texts.txt')
+        set_words = []
+        lined = lines[0].splitlines()
+        for line in lined:
+            # @Usairway hello = ['@', 'Usairway', 'hello']
+            # set_words = word_tokenize(line)
+            
+            # @Usairway hello = ['@Usairway', 'hello']
+            set_words = line.split()
+        
+            normalizer.normalize_set(set_words)
+            
+            test_neg_texts.append(set_words)
+    
+modelizer.texts_data(test_neg_texts, '../model/test.negative.texts.txt')
 
 with open('../data/test.non-negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -78,10 +85,21 @@ with open('../data/test.non-negative.csv', mode = 'r') as file:
         if len(lines) == 0:
             continue
         
-        set_words = word_tokenize(lines[0])
-        normalizer.normalize_set(set_words)
-        test_non_texts.append(set_words)
-    modelizer.texts_data(test_non_texts, '../model/test.non-negative.texts.txt')
+        set_words = []
+        lined = lines[0].splitlines()
+        for line in lined:
+
+            # @Usairway hello = ['@', 'Usairway', 'hello']
+            # set_words = word_tokenize(line)
+            
+            # @Usairway hello = ['@Usairway', 'hello']
+            set_words = line.split()
+            
+            normalizer.normalize_set(set_words)
+            
+            test_non_texts.append(set_words)
+
+modelizer.texts_data(test_non_texts, '../model/test.non-negative.texts.txt')
 
 with open('../model/predictor-model.csv', mode = 'r') as file:
     csvFile = csv.reader(file)

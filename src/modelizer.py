@@ -46,6 +46,15 @@ def count_data(word_count, count_name):
 
 def print_result_info(neg_text, non_text, model, result):
     
+    tp = result[0]
+    tn = result[1]
+    fp = result[2]
+    fn = result[3]
+
+    acc = result[4]
+    prec = result[5]
+    rec = result[6]
+
     lines = []
 
     lines.append("\n*************** tester info ***************")
@@ -54,10 +63,8 @@ def print_result_info(neg_text, non_text, model, result):
     lines.append(("number of neg text: " + str(len(neg_text))))
     lines.append(("number of non text: " + str(len(non_text))))
 
-    lines.append(("number of text right for neg: " + str(result[1])))
-    lines.append(("percent for neg: " + str(result[0]) + "%"))
-    lines.append(("number of text right for neg: " + str(result[3])))
-    lines.append(("percent for non: " + str(result[2]) + "%"))
+    lines.append("tp,fn,fp,tn,accuracy,precision,recall: ")
+    lines.append(str(tp) + ", " + str(fn) + ", " + str(fp) + ", " + str(tn) + ", " + str(acc) + ", " + str(prec) + ", " + str(rec))
 
     with open('../model/output-info.txt', 'a') as file:
         file.write('\n'.join(lines))
@@ -73,7 +80,7 @@ def print_result_info(neg_text, non_text, model, result):
             with open(lines[0], 'a') as analysis_file:
                 writer = csv.writer(analysis_file)
 
-                line = [lines[1], result[0], result[2]]
+                line = [lines[1], tp, fn, fp, tn, acc, prec, rec]
                 print(lines[0] + ' : ', end='')
                 print(line)
                 writer.writerow(line)

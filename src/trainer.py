@@ -66,16 +66,20 @@ def get_normalized_data():
             if len(lines) == 0:
                 continue
             
-            # @Usairway hello = ['@', 'Usairway', 'hello']
-            # set_words = word_tokenize(lines[0])
-            
-            # @Usairway hello = ['@Usairway', 'hello']
-            set_words = lines[0].split()
+            set_words = []
+            lined = lines[0].splitlines()
+            for line in lined:
 
-            normalizer.normalize_set(set_words)
-            count_set(set_words, neg_word_count)
+                # @Usairway hello = ['@', 'Usairway', 'hello']
+                # set_words = word_tokenize(line)
+                
+                # @Usairway hello = ['@Usairway', 'hello']
+                set_words = line.split()
 
-            train_neg_texts.append(set_words)
+                normalizer.normalize_set(set_words)
+                count_set(set_words, neg_word_count)
+
+                train_neg_texts.append(set_words)
 
     # non - word count
     with open('../data/train.non-negative.csv', mode = 'r') as file:
@@ -85,43 +89,47 @@ def get_normalized_data():
             if len(lines) == 0:
                 continue
             
-            # @Usairway hello = ['@', 'Usairway', 'hello']
-            # set_words = word_tokenize(lines[0])
-            
-            # @Usairway hello = ['@Usairway', 'hello']
-            set_words = lines[0].split()
+            set_words = []
+            lined = lines[0].splitlines()
+            for line in lined:
 
-            normalizer.normalize_set(set_words)
-            count_set(set_words, non_word_count)
+                # @Usairway hello = ['@', 'Usairway', 'hello']
+                # set_words = word_tokenize(line)
+                
+                # @Usairway hello = ['@Usairway', 'hello']
+                set_words = line.split()
 
-            train_non_texts.append(set_words)
+                normalizer.normalize_set(set_words)
+                count_set(set_words, non_word_count)
+
+                train_non_texts.append(set_words)
     
     modelizer.texts_data(train_neg_texts, '../model/train.negative.texts.txt')
     modelizer.texts_data(train_non_texts, '../model/train.non-negative.texts.txt')
     
     return [train_neg_texts, neg_word_count, train_non_texts, non_word_count]
 
-def fin_lim(temp_predictor_model, high_freq, low_freq, neg_word_count, non_word_count):
-    fin_stop(temp_predictor_model, neg_word_count, high_freq, low_freq)
-    fin_stop(temp_predictor_model, non_word_count, high_freq, low_freq)
+def fin_lim(predictor_model, high_freq, low_freq, neg_word_count, non_word_count):
+    fin_stop(predictor_model, neg_word_count, high_freq, low_freq)
+    fin_stop(predictor_model, non_word_count, high_freq, low_freq)
 
     modelizer.count_data(neg_word_count, '../model/train.negative.count.csv')
     modelizer.count_data(non_word_count, '../model/train.non-negative.count.csv')
     modelizer.model_csv(predictor_model)
     
-def fin_stop(temp_predictor_model, words_dict, high_freq, low_freq):
+def fin_stop(predictor_model, words_dict, high_freq, low_freq):
 
     words_list = list(words_dict.keys())
 
     for word in words_list:
         if words_dict[word] >= high_freq:
             words_dict.pop(word)
-            if word in temp_predictor_model.keys():
-                temp_predictor_model.pop(word)
+            if word in predictor_model.keys():
+                predictor_model.pop(word)
         elif words_dict[word] <= low_freq:
             words_dict.pop(word)
-            if word in temp_predictor_model.keys():
-                temp_predictor_model.pop(word)
+            if word in predictor_model.keys():
+                predictor_model.pop(word)
 
 def lim_freq(predictor_model, neg_word_count, non_word_count, case):
     neg_keys = list(neg_word_count.keys())
@@ -201,7 +209,7 @@ def init_test_analysis(analysis_name):
     with open(analysis_name, 'w') as file:
         writer = csv.writer(file)
 
-        header = [set_name, 'neg_res', 'non_res']
+        header = [set_name, 'tp', 'fn', 'fp', 'tn', 'accuracy', 'precision', 'recall']
         writer.writerow(header)
 
 def direct_test(analysis_name, val):
@@ -245,33 +253,40 @@ neg_word_count = data[1]
 non_word_count = data[3]
 
 temp = make_temp_count(neg_word_count, non_word_count, True)
+neg_word_count = temp[0]
+non_word_count = temp[1]
 predictor_model = modelize(alpha_num, train_neg_texts, train_non_texts, neg_word_count, non_word_count)
 
-# # train main
-# name = '../analysis/main/main.csv'
+# train main
+name = '../analysis/main/main.csv'
 # init_test_analysis(name)
 
-# case = True
+case = True
 
-# temp_neg_count = temp[0]
-# temp_non_count = temp[1]
-# temp_predictor_model = copy.deepcopy(predictor_model)
+temp_neg_count = temp[0]
+temp_non_count = temp[1]
+temp_predictor_model = copy.deepcopy(predictor_model)
 
-# fin_lim(temp_predictor_model, 250, 0, temp_neg_count, temp_non_count)
-# direct_test(name, '250/1')
+upper_bound = 236
+lower_bound = 1
+alpha_value = 1
 
-# modelizer.print_train_info(train_neg_texts, train_non_texts, 250, 0, 1, temp_neg_count, temp_non_count, temp_predictor_model)
-# exec(open("predictor.py").read())
-# print()
 
-# stop = timeit.default_timer()
-# print('Time: ', stop - start)
+fin_lim(temp_predictor_model, upper_bound, lower_bound, temp_neg_count, temp_non_count)
+direct_test(name, str(upper_bound)+'/'+str(lower_bound))
 
-# exit()
+modelizer.print_train_info(train_neg_texts, train_non_texts, upper_bound, lower_bound, alpha_value, temp_neg_count, temp_non_count, temp_predictor_model)
+exec(open("predictor.py").read())
+print()
+
+stop = timeit.default_timer()
+print('Time: ', stop - start)
+
+exit()
 
 
 # train high freq
-name = '../analysis/case4/high-freq.csv'
+name = '../analysis/case1/high-freq.csv'
 init_test_analysis(name)
 
 case = True
@@ -291,8 +306,9 @@ while True:
     exec(open("predictor.py").read())
     print()
 
+
 # train low freq
-name = '../analysis/case4/low-freq.csv'
+name = '../analysis/case1/low-freq.csv'
 init_test_analysis(name)
 
 case = False
@@ -312,9 +328,8 @@ while True:
     exec(open("predictor.py").read())
     print()
 
-
 # train alpha num
-name = '../analysis/case4/alpha-num.csv'
+name = '../analysis/case1/alpha-num.csv'
 init_test_analysis(name)
 
 case = True
