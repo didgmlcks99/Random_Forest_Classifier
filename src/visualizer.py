@@ -52,6 +52,6 @@ def plot_graph(name):
         plt.legend()
         plt.show()
 
-plot_graph('../analysis/case1/high-freq.csv')
-plot_graph('../analysis/case1/low-freq.csv')
-# plot_graph('../analysis/case1/alpha-num.csv')
+plot_graph('../analysis/case5/high-freq.csv')
+plot_graph('../analysis/case5/low-freq.csv')
+# plot_graph('../analysis/case5/alpha-num.csv')

@@ -17,7 +17,7 @@ def normalize_set(set_words):
     for i in range(len(set_words)):
         set_words[i-popped] = lowercase_word(set_words[i-popped])
         set_words[i-popped] = rm_nonalpha(set_words[i-popped])
-        set_words[i-popped] = ps.stem(set_words[i-popped])
+        # set_words[i-popped] = ps.stem(set_words[i-popped])
 
         # emptied word
         if not set_words[i-popped]:

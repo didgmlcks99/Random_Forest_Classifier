@@ -267,10 +267,9 @@ temp_neg_count = temp[0]
 temp_non_count = temp[1]
 temp_predictor_model = copy.deepcopy(predictor_model)
 
-upper_bound = 236
+upper_bound = 200
 lower_bound = 1
 alpha_value = 1
-
 
 fin_lim(temp_predictor_model, upper_bound, lower_bound, temp_neg_count, temp_non_count)
 direct_test(name, str(upper_bound)+'/'+str(lower_bound))
@@ -286,7 +285,7 @@ exit()
 
 
 # train high freq
-name = '../analysis/case1/high-freq.csv'
+name = '../analysis/case5/high-freq.csv'
 init_test_analysis(name)
 
 case = True
@@ -308,7 +307,7 @@ while True:
 
 
 # train low freq
-name = '../analysis/case1/low-freq.csv'
+name = '../analysis/case5/low-freq.csv'
 init_test_analysis(name)
 
 case = False
@@ -329,7 +328,7 @@ while True:
     print()
 
 # train alpha num
-name = '../analysis/case1/alpha-num.csv'
+name = '../analysis/case5/alpha-num.csv'
 init_test_analysis(name)
 
 case = True
