@@ -1,1 +1,1 @@
-# Naive_Bayes_Text_Classifier
+# N_Gram_Classifier
