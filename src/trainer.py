@@ -268,7 +268,7 @@ temp_non_count = temp[1]
 temp_predictor_model = copy.deepcopy(predictor_model)
 
 upper_bound = 200
-lower_bound = 1
+lower_bound = 0
 alpha_value = 1
 
 fin_lim(temp_predictor_model, upper_bound, lower_bound, temp_neg_count, temp_non_count)
