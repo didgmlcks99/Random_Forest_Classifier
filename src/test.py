@@ -19,7 +19,4 @@ from nltk.tokenize import word_tokenize
 
 list = ['hellomy', 'myheechan']
 
-if 'my' in list:
-    print("found")
-else:
-    print("nope")
+print(str(list))

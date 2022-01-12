@@ -33,7 +33,7 @@ def model_csv(model):
 def texts_data(texts, texts_name):
     with open(texts_name, 'w') as file:
         for text in texts:
-            file.write(' '.join(text))
+            file.write(str(text))
             file.write('\n')
 
 def count_data(word_count, count_name):
@@ -84,5 +84,3 @@ def print_result_info(neg_text, non_text, model, result):
                 print(lines[0] + ' : ', end='')
                 print(line)
                 writer.writerow(line)
-
-

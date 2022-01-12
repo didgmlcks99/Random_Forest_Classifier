@@ -4,7 +4,7 @@ import modelizer
 import math
 from nltk.tokenize import word_tokenize
 
-def predict(model, test_neg_texts, test_non_texts):
+def predict(model, test_neg_text_cases, test_non_text_cases):
     model_words = list(model.keys())
 
     tp = 0
@@ -13,7 +13,7 @@ def predict(model, test_neg_texts, test_non_texts):
     fn = 0
 
     # neg
-    for text in test_neg_texts:
+    for text in test_neg_text_cases:
         neg_val = 0.0
         non_val = 0.0
 
@@ -28,7 +28,7 @@ def predict(model, test_neg_texts, test_non_texts):
             fn += 1
     
     # non
-    for text in test_non_texts:
+    for text in test_non_text_cases:
         neg_val = 0
         non_val = 0
 
@@ -52,9 +52,10 @@ def predict(model, test_neg_texts, test_non_texts):
 
 # main
 # initialize setting
-test_neg_texts = []
-test_non_texts = []
+test_neg_text_cases = []
+test_non_text_cases = []
 model = {}
+gram_num = 2
 
 with open('../data/test.negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -71,12 +72,13 @@ with open('../data/test.negative.csv', mode = 'r') as file:
             
             # @Usairway hello = ['@Usairway', 'hello']
             set_words = line.split()
-        
+
             normalizer.normalize_set(set_words)
+            normalizer.n_gram(gram_num, set_words)
             
-            test_neg_texts.append(set_words)
+            test_neg_text_cases.append(set_words)
     
-modelizer.texts_data(test_neg_texts, '../model/test.negative.texts.txt')
+modelizer.texts_data(test_neg_text_cases, '../model/test.negative.texts.txt')
 
 with open('../data/test.non-negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -96,10 +98,11 @@ with open('../data/test.non-negative.csv', mode = 'r') as file:
             set_words = line.split()
             
             normalizer.normalize_set(set_words)
+            normalizer.n_gram(gram_num, set_words)
             
-            test_non_texts.append(set_words)
+            test_non_text_cases.append(set_words)
 
-modelizer.texts_data(test_non_texts, '../model/test.non-negative.texts.txt')
+modelizer.texts_data(test_non_text_cases, '../model/test.non-negative.texts.txt')
 
 with open('../model/predictor-model.csv', mode = 'r') as file:
     csvFile = csv.reader(file)
@@ -110,6 +113,6 @@ with open('../model/predictor-model.csv', mode = 'r') as file:
 
         model[lines[0]] = [float(lines[1]), float(lines[2])]
         
-result = predict(model, test_neg_texts, test_non_texts)
+result = predict(model, test_neg_text_cases, test_non_text_cases)
 
-modelizer.print_result_info(test_neg_texts, test_non_texts, model, result)
+modelizer.print_result_info(test_neg_text_cases, test_non_text_cases, model, result)

@@ -35,3 +35,18 @@ def rm_nonalpha(word):
     
 def rm_nonalnum(word):
     return ''.join(filter(str.isalnum, word))
+
+def n_gram(n, set_words):
+
+    if len(set_words) == n-1:
+        return set_words
+    else:
+        for i in range(0, len(set_words)-(n-1), 1):
+            word = ''
+            
+            for j in range(n):
+                word += set_words[i+j]
+                if j < n-1:
+                    word += ' '
+
+            set_words.append(word)
