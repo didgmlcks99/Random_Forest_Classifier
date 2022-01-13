@@ -51,10 +51,8 @@ low_freq = 3
 alpha_num = 1
 
 # case settings
-# train_neg_fn = '../data/train.negative.csv'
-# train_non_fn = '../data/train.non-negative.csv'
-train_neg_fn = 'a.csv'
-train_non_fn = 'b.csv'
+train_neg_fn = '../data/train.negative.csv'
+train_non_fn = '../data/train.non-negative.csv'
 rec_train_neg_fn = '../record/train.negative.texts.txt'
 rec_train_non_fn = '../record/train.non-negative.texts.txt'
 
