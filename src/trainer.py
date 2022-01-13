@@ -38,7 +38,6 @@ def read_train_data(read_fn, tk_case, gram_num, rec_text_fn):
 start = timeit.default_timer()
 
 # main settings
-gram_num = 100
 tk_case = False
 default_sort_order = True
 high_sort_order = True
@@ -46,8 +45,9 @@ low_sort_order = False
 run_case = True
 
 # model settings
-high_freq = 4
-low_freq = 3
+gram_num = 2
+high_freq = 200
+low_freq = 0
 alpha_num = 1
 
 # case settings
