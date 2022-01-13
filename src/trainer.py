@@ -42,11 +42,11 @@ tk_case = False
 default_sort_order = True
 high_sort_order = True
 low_sort_order = False
-run_case = True
+run_case = False
 
 # model settings
 gram_num = 2
-high_freq = 200
+high_freq = 100000000000
 low_freq = 0
 alpha_num = 1
 
@@ -74,7 +74,7 @@ if run_case == True:
 
     name = '../analysis/main/main.csv'
     # recorder.init_test_analysis(name)
-
+    
     modelizer.finalize_model(tmp_model, high_freq, low_freq, tmp_neg_count_dict, tmp_non_count_dict, run_case, default_sort_order)
     recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
 
@@ -82,7 +82,7 @@ if run_case == True:
     print()
 else:
     # train high freq
-    name = '../analysis/case5/high-freq.csv'
+    name = '../analysis/case6/high-freq.csv'
     recorder.init_test_analysis(name)
 
     tmp_neg_count_dict = modelizer.make_tmp_data(main_neg_cases_count_dict, high_sort_order)
@@ -101,7 +101,7 @@ else:
 
 
     # train low freq
-    name = '../analysis/case5/low-freq.csv'
+    name = '../analysis/case6/low-freq.csv'
     recorder.init_test_analysis(name)
 
     tmp_neg_count_dict = modelizer.make_tmp_data(main_neg_cases_count_dict, low_sort_order)
@@ -119,7 +119,7 @@ else:
         print()
 
     # train alpha num
-    name = '../analysis/case5/alpha-num.csv'
+    name = '../analysis/case6/alpha-num.csv'
     recorder.init_test_analysis(name)
 
     tmp_neg_count_dict = modelizer.make_tmp_data(main_neg_cases_count_dict, default_sort_order)

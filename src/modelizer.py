@@ -64,6 +64,11 @@ def finalize_model(model, high_freq, low_freq, neg_cases_count_dict, non_cases_c
         stopword_rm(model, high_freq, low_freq, neg_cases_count_dict, non_cases_count_dict)
     else:
         bound = stopword_lim(model, neg_cases_count_dict, non_cases_count_dict, order)
+
+        recorder.record_case_count_dict(neg_cases_count_dict, '../model/train.negative.count.csv')
+        recorder.record_case_count_dict(non_cases_count_dict, '../model/train.non-negative.count.csv')
+        recorder.record_model(model)
+
         return bound
     
     recorder.record_case_count_dict(neg_cases_count_dict, '../model/train.negative.count.csv')
