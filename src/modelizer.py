@@ -39,6 +39,7 @@ def init_model(model, count_dict):
 def work_model(alpha_num, model, neg_texts, non_texts):
     print("working on prediction model...")
     i = 1
+    model_size = len(model)
     for case in model:
         neg_count = 0
         non_count = 0
@@ -53,7 +54,7 @@ def work_model(alpha_num, model, neg_texts, non_texts):
         model[case][0] = (neg_count+alpha_num) / (len(neg_texts)+alpha_num)
         model[case][1] = (non_count+alpha_num) / (len(non_texts)+alpha_num)
 
-        print('> ' + str(i) + ': ' + case + " [" + str(model[case][0]) + ", " + str(model[case][1]) + "]")
+        print('> ' + str(i) + '/' + str(model_size) +  ' ' + "{:.2f}".format((i/model_size)*100) + '%: ' + case + " [" + str(model[case][0]) + ", " + str(model[case][1]) + "]")
         i += 1
         
     print("prediction model done...")

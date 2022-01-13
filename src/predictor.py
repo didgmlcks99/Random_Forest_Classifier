@@ -92,7 +92,7 @@ def get_model(model_fn):
 
 # main
 # main settings
-gram_num = 100
+gram_num = 2
 tk_case = False
 
 # case settings
