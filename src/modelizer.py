@@ -1,57 +1,200 @@
 import csv
+import recorder
 
-def count_text_word_cases(text_word_cases, word_cases_dict):
+def count_text_word_cases(text_word_cases, word_cases_count_dict):
     for case in text_word_cases:
-        if case in word_cases_dict.keys():
-            word_cases_dict[case] += 1
+        if case in word_cases_count_dict.keys():
+            word_cases_count_dict[case] += 1
         else:
-            word_cases_dict[case] = 1
+            word_cases_count_dict[case] = 1
 
-def print_train_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, predictor_model):
+def make_tmp_data(cases_count_dict, sort_order):
+    tmp_count_dict = cases_count_dict.copy()
 
-    lines = []
+    tmp = sort_word_cases(tmp_count_dict, sort_order)
+    tmp_count_dict.clear()
+    tmp_count_dict = tmp
+
+    return tmp_count_dict
+
+def sort_word_cases(tmp_count_dict, sort_order):
+    res = {key: val for key, val in sorted(tmp_count_dict.items(), key = lambda ele: ele[1], reverse = sort_order)}
+    return res
+
+def mk_model(alpha_num, neg_texts, non_texts, neg_cases_count_dict, non_cases_count_dict):
+    model = {}
     
-    lines.append("*************** trainer info ***************")
+    init_model(model, neg_cases_count_dict)
+    init_model(model, non_cases_count_dict)
 
-    lines.append(("stopword frequency upper bound: " + str(high_freq)))
-    lines.append(("stopword frequency lower bound: " + str(low_freq)))
+    work_model(alpha_num, model, neg_texts, non_texts)
 
-    lines.append(("alpha number: " + str(alpha_num)))
+    return model
 
-    lines.append(("neg text size: " + str(len(neg_text))))
-    lines.append(("number of words from neg (after normalization and stemming): " + str(len(neg_word_count))))
+def init_model(model, count_dict):
+    for case in count_dict:
+        if not case in model.keys():
+            model[case] = [0.0, 0.0]
+
+def work_model(alpha_num, model, neg_texts, non_texts):
+    print("working on prediction model...")
+    i = 1
+    for case in model:
+        neg_count = 0
+        non_count = 0
+        for text in neg_texts:
+            if case in text:
+                neg_count += 1
+        
+        for text in non_texts:
+            if case in text:
+                non_count += 1
     
-    lines.append(("non text size: " + str(len(non_text))))
-    lines.append(("number of words from non (after normalization and stemming): " + str(len(non_word_count))))
+        model[case][0] = (neg_count+alpha_num) / (len(neg_texts)+alpha_num)
+        model[case][1] = (non_count+alpha_num) / (len(non_texts)+alpha_num)
 
-    lines.append(("total number of words in predictor model: " + str(len(predictor_model))))
+        print('> ' + str(i) + ': ' + case + " [" + str(model[case][0]) + ", " + str(model[case][1]) + "]")
+        i += 1
+        
+    print("prediction model done...")
 
-    with open('../model/output-info.txt', 'a') as file:
-        file.write('\n'.join(lines))
+def finalize_model(model, high_freq, low_freq, neg_cases_count_dict, non_cases_count_dict, run_case, order):
+    if run_case == True:
+        stopword_rm(model, high_freq, low_freq, neg_cases_count_dict, non_cases_count_dict)
+    else:
+        bound = stopword_lim(model, neg_cases_count_dict, non_cases_count_dict, order)
+        return bound
+    
+    recorder.record_case_count_dict(neg_cases_count_dict, '../model/train.negative.count.csv')
+    recorder.record_case_count_dict(non_cases_count_dict, '../model/train.non-negative.count.csv')
+    recorder.record_model(model)
 
-def model_csv(model):
-    with open('../model/predictor-model.csv', 'w') as file:
-        writer = csv.writer(file)
+def stopword_rm(model, high_freq, low_freq, neg_dict, non_dict):
+    neg_case_list = list(neg_dict.keys())
+    for case in neg_case_list:
+        if neg_dict[case] >= high_freq:
+            neg_dict.pop(case)
+            
+            if non_dict:
+                if case in non_dict.keys():
+                    non_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
 
-        for word in model:
-            line = [word, model[word][0], model[word][1]]
-            writer.writerow(line)
+        elif neg_dict[case] <= low_freq:
+            neg_dict.pop(case)
 
-def texts_data(texts, texts_name):
-    with open(texts_name, 'w') as file:
-        for text in texts:
-            file.write(str(text))
-            file.write('\n')
+            if non_dict:
+                if case in non_dict.keys():
+                    non_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
+    
+    non_case_list = list(non_dict.keys())
+    for case in non_case_list:
+        if non_dict[case] >= high_freq:
+            non_dict.pop(case)
+            
+            if neg_dict:
+                if case in neg_dict.keys():
+                    neg_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
+                
+        elif non_dict[case] <= low_freq:
+            non_dict.pop(case)
 
-def count_data(word_count, count_name):
-    with open(count_name, 'w') as file:
-        writer = csv.writer(file)
+            if neg_dict:
+                if case in neg_dict.keys():
+                    neg_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
 
-        for word in word_count:
-            line = [word, word_count[word]]
-            writer.writerow(line)
+def stopword_lim(model, neg_dict, non_dict, order):
+    neg_keys = list(neg_dict.keys())
+    non_keys = list(non_dict.keys())
 
-def print_result_info(neg_text, non_text, model, result):
+    neg_bound = 0
+    non_bound = 0
+    if not neg_dict:
+        neg_bound = -1
+    else:
+        neg_bound = neg_dict[neg_keys[0]]
+    
+    if not non_dict:
+        non_bound = -1
+    else:
+        non_bound = non_dict[non_keys[0]]
+    
+    bound = get_bound(neg_bound, non_bound, order)
+    stopword_lim_rm(model, neg_dict, non_dict, bound)
+
+    return bound
+
+def get_bound(neg_bound, non_bound, order):
+    bound = 0
+
+    if neg_bound == -1 and non_bound == -1:
+        bound = -1
+    elif neg_bound == -1:
+        bound = non_bound
+    elif non_bound == -1:
+        bound = neg_bound
+    elif order == True:
+        if neg_bound >= non_bound:
+            bound = neg_bound
+        else:
+            bound = non_bound
+    elif order == False:
+        if neg_bound <= non_bound:
+            bound = neg_bound
+        else:
+            bound = non_bound
+    
+    return bound
+
+def stopword_lim_rm(model, neg_dict, non_dict, bound):
+    neg_case_list = list(neg_dict.keys())
+    for case in neg_case_list:
+        if neg_dict[case] == bound:
+            neg_dict.pop(case)
+            
+            if non_dict:
+                if case in non_dict.keys():
+                    non_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
+
+        else:
+            break
+    
+    non_case_list = list(non_dict.keys())
+    for case in non_case_list:
+        if non_dict[case] == bound:
+            non_dict.pop(case)
+            
+            if neg_dict:
+                if case in neg_dict.keys():
+                    neg_dict.pop(case)
+            
+            if model:
+                if case in model.keys():
+                    model.pop(case)
+                
+        else:
+            break
+
+def print_result_info(result):
     
     tp = result[0]
     tn = result[1]
@@ -61,33 +204,18 @@ def print_result_info(neg_text, non_text, model, result):
     acc = result[4]
     prec = result[5]
     rec = result[6]
-
-    lines = []
-
-    lines.append("\n*************** tester info ***************")
-
-    lines.append(("number of word in model: " + str(len(model))))
-    lines.append(("number of neg text: " + str(len(neg_text))))
-    lines.append(("number of non text: " + str(len(non_text))))
-
-    lines.append("tp,fn,fp,tn,accuracy,precision,recall: ")
-    lines.append(str(tp) + ", " + str(fn) + ", " + str(fp) + ", " + str(tn) + ", " + str(acc) + ", " + str(prec) + ", " + str(rec))
-
-    with open('../model/output-info.txt', 'a') as file:
-        file.write('\n'.join(lines))
-        file.write('\n\n\n')
     
     with open('../analysis/direction.csv', 'r') as file:
         csvFile = csv.reader(file)
 
-        for lines in csvFile:
-            if len(lines) == 0:
+        for row in csvFile:
+            if len(row) == 0:
                 continue
 
-            with open(lines[0], 'a') as analysis_file:
+            with open(row[0], 'a') as analysis_file:
                 writer = csv.writer(analysis_file)
 
-                line = [lines[1], tp, fn, fp, tn, acc, prec, rec]
-                print(lines[0] + ' : ', end='')
+                line = [row[1], tp, fn, fp, tn, acc, prec, rec]
+                print(row[0] + ' : ', end='')
                 print(line)
                 writer.writerow(line)
