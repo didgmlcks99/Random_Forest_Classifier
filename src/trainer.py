@@ -1,4 +1,5 @@
 import csv
+import text_processor
 import normalizer
 import modelizer
 import timeit
@@ -254,8 +255,60 @@ def make_temp_count(neg_word_count, non_word_count, case):
 
     return [temp_neg_count, temp_non_count]
 
+# =============================================================================
+
+def read_train_data(fn, tk_case, gram_num):
+    total_text_word_cases = []
+    word_cases_dict = {}
+
+    with open(fn, mode = 'r') as file:
+        csvFile = csv.reader(file)
+
+        for row in csvFile:
+            if len(row) == 0:
+                continue
+            
+            text_word_cases = []
+            lined = row[0].splitlines()
+            for line in lined:
+
+                text_word_cases = text_processor.setting_tokenizer(line, tk_case)
+
+                text_processor.normalize_set(text_word_cases)
+                text_processor.n_gram(text_word_cases, gram_num)
+                modelizer.count_text_word_cases(text_word_cases, word_cases_dict)
+
+                total_text_word_cases.append(text_word_cases)
 
 
+    # non - word count
+    with open('../data/train.non-negative.csv', mode = 'r') as file:
+        csvFile = csv.reader(file)
+
+        for lines in csvFile:
+            if len(lines) == 0:
+                continue
+            
+            set_words = []
+            lined = lines[0].splitlines()
+            for line in lined:
+
+                # @Usairway hello = ['@', 'Usairway', 'hello']
+                # set_words = word_tokenize(line)
+                
+                # @Usairway hello = ['@Usairway', 'hello']
+                set_words = line.split()
+
+                normalizer.normalize_set(set_words)
+                normalizer.n_gram(gram_num, set_words)
+                count_set(set_words, neg_word_count)
+
+                train_non_text_cases.append(set_words)
+    
+    modelizer.texts_data(train_neg_text_cases, '../model/train.negative.texts.txt')
+    modelizer.texts_data(train_non_text_cases, '../model/train.non-negative.texts.txt')
+    
+    return [train_neg_text_cases, neg_word_count, train_non_text_cases, non_word_count]
 # main
 # initialize setting
 start = timeit.default_timer()
@@ -264,7 +317,8 @@ high_freq = 100000000
 low_freq = 0
 alpha_num = 1
 
-data = get_normalized_data(2)
+read_train_data(fn)
+data = get_normalized_data(3)
 
 train_neg_text_cases = data[0]
 train_non_text_cases = data[2]

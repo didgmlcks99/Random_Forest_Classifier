@@ -55,7 +55,7 @@ def predict(model, test_neg_text_cases, test_non_text_cases):
 test_neg_text_cases = []
 test_non_text_cases = []
 model = {}
-gram_num = 2
+gram_num = 3 
 
 with open('../data/test.negative.csv', mode = 'r') as file:
     csvFile = csv.reader(file)

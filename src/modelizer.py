@@ -1,5 +1,12 @@
 import csv
 
+def count_text_word_cases(text_word_cases, word_cases_dict):
+    for case in text_word_cases:
+        if case in word_cases_dict.keys():
+            word_cases_dict[case] += 1
+        else:
+            word_cases_dict[case] = 1
+
 def print_train_info(neg_text, non_text, high_freq, low_freq, alpha_num, neg_word_count, non_word_count, predictor_model):
 
     lines = []
