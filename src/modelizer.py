@@ -27,7 +27,7 @@ def mk_model(alpha_num, neg_texts, non_texts, neg_cases_count_dict, non_cases_co
     init_model(model, neg_cases_count_dict)
     init_model(model, non_cases_count_dict)
 
-    work_model(alpha_num, model, neg_texts, non_texts)
+    # work_model(alpha_num, model, neg_texts, non_texts)
 
     return model
 
@@ -37,7 +37,7 @@ def init_model(model, count_dict):
             model[case] = [0.0, 0.0]
 
 def work_model(alpha_num, model, neg_texts, non_texts):
-    print("working on prediction model...")
+    print("> working on prediction model...")
     i = 1
     model_size = len(model)
     for case in model:
@@ -57,7 +57,7 @@ def work_model(alpha_num, model, neg_texts, non_texts):
         print('> ' + str(i) + '/' + str(model_size) +  ' ' + "{:.2f}".format((i/model_size)*100) + '%: ' + case + " [" + str(model[case][0]) + ", " + str(model[case][1]) + "]")
         i += 1
         
-    print("prediction model done...")
+    print("> prediction model done...")
 
 def finalize_model(model, high_freq, low_freq, neg_cases_count_dict, non_cases_count_dict, run_case, order):
     if run_case == True:
@@ -225,3 +225,20 @@ def print_result_info(result):
                 print(row[0] + ' : ', end='')
                 print(line)
                 writer.writerow(line)
+
+def mk_samples(samples, samples_classes, features_model, texts_cases, classed):
+    print("> making samples for class : " + str(classed))
+    i = 1
+    samples_size = len(texts_cases)
+    for text in texts_cases:
+        print("> samplify class #" + str(classed) + " --> " + str(i) + "/" + str(samples_size) +  ' ' + "{:.2f}".format((i/samples_size)*100) + '%')
+        i += 1
+
+        tmp_sample = []
+
+        for feature in features_model.keys():
+            tmp_sample.append(text.count(feature))
+
+        samples.append(tmp_sample)
+        samples_classes.append(classed)
+    print("> done making samples for class " + str(classed))

@@ -4,8 +4,16 @@ import recorder
 import modelizer
 import timeit
 import copy
+import predictor
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import make_pipeline
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-def read_train_data(read_fn, tk_case, gram_num, rec_text_fn):
+def read_train_data(read_fn, tk_case, gram_num, rec_text_fn, for_non):
     total_text_word_cases = []
     word_cases_count_dict = {}
 
@@ -26,6 +34,10 @@ def read_train_data(read_fn, tk_case, gram_num, rec_text_fn):
                 text_processor.n_gram(text_word_cases, gram_num)
                 modelizer.count_text_word_cases(text_word_cases, word_cases_count_dict)
 
+                if for_non == True:
+                    modelizer.count_text_word_cases(text_word_cases, word_cases_count_dict)
+                    total_text_word_cases.append(text_word_cases)
+                
                 total_text_word_cases.append(text_word_cases)
     
     recorder.record_text_word_cases(total_text_word_cases, rec_text_fn)
@@ -42,12 +54,12 @@ tk_case = False
 default_sort_order = True
 high_sort_order = True
 low_sort_order = False
-run_case = False
+run_case = True
 
 # model settings
 gram_num = 2
-high_freq = 100000000000
-low_freq = 0
+high_freq = 200
+low_freq = 6
 alpha_num = 1
 
 # case settings
@@ -56,11 +68,11 @@ train_non_fn = '../data/train.non-negative.csv'
 rec_train_neg_fn = '../record/train.negative.texts.txt'
 rec_train_non_fn = '../record/train.non-negative.texts.txt'
 
-tmp = read_train_data(train_neg_fn, tk_case, gram_num, rec_train_neg_fn)
+tmp = read_train_data(train_neg_fn, tk_case, gram_num, rec_train_neg_fn, False)
 train_neg_texts = tmp[0]
 main_neg_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
-tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn)
+tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, True)
 train_non_texts = tmp[0]
 main_non_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
@@ -78,7 +90,27 @@ if run_case == True:
     modelizer.finalize_model(tmp_model, high_freq, low_freq, tmp_neg_count_dict, tmp_non_count_dict, run_case, default_sort_order)
     recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
 
-    exec(open("predictor.py").read())
+    # new RF ================================================================================================================
+    clf = RandomForestClassifier(random_state=0)
+
+    train_samples = []
+    train_samples_classes = []
+
+    modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_neg_texts, 1)
+    modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_non_texts, 0)
+
+    print("> scaling sample features")
+    train_samples = StandardScaler().fit(train_samples).transform(train_samples)
+    recorder.record_samples(train_samples, train_samples_classes, 'train.samples-model')
+
+    print("> building random forest with scaled samples")
+    clf.fit(train_samples, train_samples_classes)
+
+    predictor.test_random_forest(clf, tmp_model)
+    
+    # end new RF ============================================================================================================
+
+    # exec(open("predictor.py").read())
     print()
 else:
     # train high freq

@@ -39,3 +39,9 @@ def direct_test(analysis_name, val):
         writer = csv.writer(file)
 
         writer.writerow(data)
+
+def record_samples(samples, samples_classes, fn):
+    with open('../model/'+fn+'.txt', 'w') as file:
+        for i in range(len(samples)):
+            line = str(i+1) + ". classed #" + str(samples_classes[i]) + ": " + str(samples[i])
+            file.write(line + '\n')

@@ -3,9 +3,10 @@ import modelizer
 import text_processor
 import recorder
 import math
+from sklearn.preprocessing import StandardScaler
 
 def predict(model, test_neg_text_cases, test_non_text_cases):
-    print("predicting test samples...")
+    print("> predicting test samples...")
     model_words = list(model.keys())
 
     tp = 0
@@ -47,7 +48,7 @@ def predict(model, test_neg_text_cases, test_non_text_cases):
     prec = tp / (tp + fp)
     rec = tp / (tp + fn)
 
-    print("done predicting test samples...")
+    print("> done predicting test samples...")
 
     return [tp, tn, fp, fn, acc, prec, rec]
 
@@ -90,24 +91,83 @@ def get_model(model_fn):
     
     return p_model
 
-# main
-# main settings
-gram_num = 2
-tk_case = False
+# new RF ================================================================================================================
+def test_random_forest(clf, tmp_model):
+    # main settings
+    gram_num = 2
+    tk_case = False
 
-# case settings
-test_neg_fn = '../data/test.negative.csv'
-test_non_fn = '../data/test.non-negative.csv'
-rec_test_neg_fn = '../record/test.negative.texts.txt'
-rec_test_non_fn = '../record/test.non-negative.texts.txt'
+    # case settings
+    test_neg_fn = '../data/test.negative.csv'
+    test_non_fn = '../data/test.non-negative.csv'
+    rec_test_neg_fn = '../record/test.negative.texts.txt'
+    rec_test_non_fn = '../record/test.non-negative.texts.txt'
 
-model_fn = '../model/predictor-model.csv'
+    test_neg_text_cases = read_test_data(test_neg_fn, tk_case, gram_num, rec_test_neg_fn)
+    test_non_text_cases = read_test_data(test_non_fn, tk_case, gram_num, rec_test_non_fn)
 
-test_neg_text_cases = read_test_data(test_neg_fn, tk_case, gram_num, rec_test_neg_fn)
-test_non_text_cases = read_test_data(test_non_fn, tk_case, gram_num, rec_test_non_fn)
+    test_samples = []
+    test_samples_classes = []
+    
+    modelizer.mk_samples(test_samples, test_samples_classes, tmp_model, test_neg_text_cases, 1)
+    modelizer.mk_samples(test_samples, test_samples_classes, tmp_model, test_non_text_cases, 0)
 
-prediction_model = get_model(model_fn)
+    test_samples = StandardScaler().fit(test_samples).transform(test_samples)
+    recorder.record_samples(test_samples, test_samples_classes, 'test.samples-model')
+
+    results = clf.predict(test_samples)
+
+    calc_statistics(test_samples_classes, results)
+
+def calc_statistics(test_samples_classes, results):
+    print("> predicting test samples...")
+
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
+
+    for i in range(len(results)):
+        if test_samples_classes[i] == 1 and results[i] == 1:
+            tp += 1
+        elif test_samples_classes[i] == 0 and results[i] == 1:
+            fp += 1
+        elif test_samples_classes[i] == 0 and results[i] == 0:
+            tn += 1
+        elif test_samples_classes[i] == 1 and results[i] == 0:
+            fn += 1
+    
+    acc = (tp + tn) / (tp + fn + tn + fp)
+    prec = tp / (tp + fp)
+    rec = tp / (tp + fn)
+
+    print("> done predicting test samples...")
+    
+    result = [tp, tn, fp, fn, acc, prec, rec]
+    modelizer.print_result_info(result)
+
+
+# end new RF ============================================================================================================
+
+
+# # main
+# # main settings
+# gram_num = 2
+# tk_case = False
+
+# # case settings
+# test_neg_fn = '../data/test.negative.csv'
+# test_non_fn = '../data/test.non-negative.csv'
+# rec_test_neg_fn = '../record/test.negative.texts.txt'
+# rec_test_non_fn = '../record/test.non-negative.texts.txt'
+
+# model_fn = '../model/predictor-model.csv'
+
+# test_neg_text_cases = read_test_data(test_neg_fn, tk_case, gram_num, rec_test_neg_fn)
+# test_non_text_cases = read_test_data(test_non_fn, tk_case, gram_num, rec_test_non_fn)
+
+# prediction_model = get_model(model_fn)
         
-result = predict(prediction_model, test_neg_text_cases, test_non_text_cases)
+# result = predict(prediction_model, test_neg_text_cases, test_non_text_cases)
 
-modelizer.print_result_info(result)
+# modelizer.print_result_info(result)
