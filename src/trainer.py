@@ -50,7 +50,7 @@ def read_train_data(read_fn, tk_case, gram_num, rec_text_fn, for_non):
 start = timeit.default_timer()
 
 # main settings
-tk_case = False
+tk_case = True
 default_sort_order = True
 high_sort_order = True
 low_sort_order = False
@@ -58,15 +58,15 @@ run_case = True
 
 # model settings
 gram_num = 200
-high_freq = 2
-low_freq = 0
+high_freq = 160
+low_freq = 5
 alpha_num = 1
 
 # case settings
-# train_neg_fn = '../data/train.negative.csv'
-# train_non_fn = '../data/train.non-negative.csv'
-train_neg_fn = '../data/mytrain.negative.csv'
-train_non_fn = '../data/mytrain.non-negative.csv'
+train_neg_fn = '../data/train.negative.csv'
+train_non_fn = '../data/train.non-negative.csv'
+# train_neg_fn = '../data/mytrain.negative.csv'
+# train_non_fn = '../data/mytrain.non-negative.csv'
 rec_train_neg_fn = '../record/train.negative.texts.txt'
 rec_train_non_fn = '../record/train.non-negative.texts.txt'
 
@@ -74,8 +74,8 @@ tmp = read_train_data(train_neg_fn, tk_case, gram_num, rec_train_neg_fn, False)
 train_neg_texts = tmp[0]
 main_neg_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
+tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, True)
 # tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False)
-tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False)
 train_non_texts = tmp[0]
 main_non_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
@@ -105,8 +105,8 @@ if run_case == True:
     recorder.record_samples(train_samples, train_samples_classes, 'train.samples-model')
 
     print("> building random forest with scaled samples")
-    for i in range(100):
-        clf = RandomForestClassifier(n_estimators=100, random_state=0)
+    for i in range(1):
+        clf = RandomForestClassifier(n_estimators=1000, random_state=0)
         clf.fit(train_samples, train_samples_classes)
 
         predictor.test_random_forest(clf, tmp_model)

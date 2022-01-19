@@ -6,52 +6,94 @@ def plot_graph(name):
     print(name)
 
     with open(name, mode = 'r') as file:
-        x_axis = []
+        stat = {}
+        res = {}
+
         tp = []
         fn = []
         fp = []
         tn = []
 
-        acc = []
-        prec = []
-        rec = []
+        accuracy = []
+        precision = []
+        recall = []
 
         csvFile = csv.reader(file)
 
         for lines in csvFile:
             if lines[0][0].isalpha():
+                stat[lines[1]] = 0
+                stat[lines[2]] = 0
+                stat[lines[3]] = 0
+                stat[lines[4]] = 0
+
+                res[lines[5]] = 0
+                res[lines[6]] = 0
+                res[lines[7]] = 0
+
                 continue
+
             
-            # if 100 < int(lines[0]) < 170 :
-            x_axis.append(float(lines[0]))
             tp.append(float(lines[1]))
             fn.append(float(lines[2]))
             fp.append(float(lines[3]))
             tn.append(float(lines[4]))
 
-            acc.append(float(lines[5])*100)
-            prec.append(float(lines[6])*100)
-            rec.append(float(lines[7])*100)
+            accuracy.append(float(lines[5])*100)
+            precision.append(float(lines[6])*100)
+            recall.append(float(lines[7])*100)
         
-        plt.plot(x_axis, tp, label='tp')
-        # plt.plot(x_axis, fn, label='fn')
-        # plt.plot(x_axis, fp, label='fp')
-        plt.plot(x_axis, tn, label='tn')
+        
+        stat['tp'] = get_average(tp)
+        stat['fn'] = get_average(fn)
+        stat['fp'] = get_average(fp)
+        stat['tn'] = get_average(tn)
 
-        plt.plot(x_axis, acc, label='acc')
-        plt.plot(x_axis, prec, label='prec')
-        plt.plot(x_axis, rec, label='rec')
+        res['accuracy'] = get_average(accuracy)
+        res['precision'] = get_average(precision)
+        res['recall'] = get_average(recall)
 
         folders = name.split('/')
         file = folders[3].split('.')
         title = file[0]
 
-        plt.title(title + " bound")
-        plt.xlabel('value')
-        plt.ylabel('percent')
-        plt.legend()
+        x = np.arange(4)
+        stats = list(stat.keys())
+        vals = list(stat.values())
+
+        plt.xlabel('stat')
+        plt.ylabel('avg')
+        plt.title(title + "stats")
+
+        plt.bar(x, vals)
+        plt.xticks(x, stats)
+
         plt.show()
 
-plot_graph('../analysis/case5/high-freq.csv')
-plot_graph('../analysis/case5/low-freq.csv')
+        
+        
+        x = np.arange(3)
+        stats = list(res.keys())
+        vals = list(res.values())
+
+        plt.xlabel('results')
+        plt.ylabel('avg')
+        plt.title(title + 'results')
+
+        plt.bar(x, vals)
+        plt.xticks(x, stats)
+
+        plt.show()
+
+def get_average(list):
+    size = len(list)
+    tot_sum = 0
+
+    for n in list:
+        tot_sum += n
+    
+    return n/size
+
+plot_graph('../analysis/main/main.csv')
+# plot_graph('../analysis/case5/low-freq.csv')
 # plot_graph('../analysis/case5/alpha-num.csv')

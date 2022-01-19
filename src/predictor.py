@@ -98,12 +98,14 @@ def test_random_forest(clf, tmp_model):
     tk_case = False
 
     # case settings
-    # test_neg_fn = '../data/test.negative.csv'
-    # test_non_fn = '../data/test.non-negative.csv'
+    test_neg_fn = '../data/test.negative.csv'
+    test_non_fn = '../data/test.non-negative.csv'
+    # test_neg_fn = '../data/train.negative.csv'
+    # test_non_fn = '../data/train.non-negative.csv'
     # test_neg_fn = '../data/mytest.negative.csv'
     # test_non_fn = '../data/mytest.non-negative.csv'
-    test_neg_fn = '../data/mytrain.negative.csv'
-    test_non_fn = '../data/mytrain.non-negative.csv'
+    # test_neg_fn = '../data/mytrain.negative.csv'
+    # test_non_fn = '../data/mytrain.non-negative.csv'
     rec_test_neg_fn = '../record/test.negative.texts.txt'
     rec_test_non_fn = '../record/test.non-negative.texts.txt'
 
@@ -116,7 +118,7 @@ def test_random_forest(clf, tmp_model):
     modelizer.mk_samples(test_samples, test_samples_classes, tmp_model, test_neg_text_cases, 1)
     modelizer.mk_samples(test_samples, test_samples_classes, tmp_model, test_non_text_cases, 0)
 
-    test_samples = StandardScaler().fit(test_samples).transform(test_samples)
+    # test_samples = StandardScaler().fit(test_samples).transform(test_samples)
     recorder.record_samples(test_samples, test_samples_classes, 'test.samples-model')
 
     results = clf.predict(test_samples)
