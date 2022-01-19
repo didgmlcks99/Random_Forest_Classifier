@@ -237,7 +237,12 @@ def mk_samples(samples, samples_classes, features_model, texts_cases, classed):
         tmp_sample = []
 
         for feature in features_model.keys():
-            tmp_sample.append(text.count(feature))
+            if text.count(feature) == 0:
+                tmp_sample.append(0)
+            else:
+                tmp_sample.append(1)
+            # tmp_sample[feature] = text.count(feature)
+            # tmp_sample.append(text.count(feature))
 
         samples.append(tmp_sample)
         samples_classes.append(classed)

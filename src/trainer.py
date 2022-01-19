@@ -57,14 +57,16 @@ low_sort_order = False
 run_case = True
 
 # model settings
-gram_num = 2
-high_freq = 200
-low_freq = 6
+gram_num = 200
+high_freq = 2
+low_freq = 0
 alpha_num = 1
 
 # case settings
-train_neg_fn = '../data/train.negative.csv'
-train_non_fn = '../data/train.non-negative.csv'
+# train_neg_fn = '../data/train.negative.csv'
+# train_non_fn = '../data/train.non-negative.csv'
+train_neg_fn = '../data/mytrain.negative.csv'
+train_non_fn = '../data/mytrain.non-negative.csv'
 rec_train_neg_fn = '../record/train.negative.texts.txt'
 rec_train_non_fn = '../record/train.non-negative.texts.txt'
 
@@ -72,7 +74,8 @@ tmp = read_train_data(train_neg_fn, tk_case, gram_num, rec_train_neg_fn, False)
 train_neg_texts = tmp[0]
 main_neg_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
-tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, True)
+# tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False)
+tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False)
 train_non_texts = tmp[0]
 main_non_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
@@ -91,22 +94,22 @@ if run_case == True:
     recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
 
     # new RF ================================================================================================================
-    clf = RandomForestClassifier(random_state=0)
-
     train_samples = []
     train_samples_classes = []
 
     modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_neg_texts, 1)
     modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_non_texts, 0)
 
-    print("> scaling sample features")
-    train_samples = StandardScaler().fit(train_samples).transform(train_samples)
+    # print("> scaling sample features")
+    # train_samples = StandardScaler().fit(train_samples).transform(train_samples)
     recorder.record_samples(train_samples, train_samples_classes, 'train.samples-model')
 
     print("> building random forest with scaled samples")
-    clf.fit(train_samples, train_samples_classes)
+    for i in range(100):
+        clf = RandomForestClassifier(n_estimators=100, random_state=0)
+        clf.fit(train_samples, train_samples_classes)
 
-    predictor.test_random_forest(clf, tmp_model)
+        predictor.test_random_forest(clf, tmp_model)
     
     # end new RF ============================================================================================================
 
