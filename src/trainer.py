@@ -58,15 +58,15 @@ run_case = True
 
 # model settings
 gram_num = 200
-high_freq = 160
-low_freq = 5
+high_freq = 6000          # 여기
+low_freq = 10           # 여기
 alpha_num = 1
 
 # case settings
-train_neg_fn = '../data/train.negative.csv'
-train_non_fn = '../data/train.non-negative.csv'
-# train_neg_fn = '../data/mytrain.negative.csv'
-# train_non_fn = '../data/mytrain.non-negative.csv'
+train_neg_fn = '../data/train.negative.csv'               # 여기
+train_non_fn = '../data/train.non-negative.csv'           # 여기
+# train_neg_fn = '../data/mytrain.negative.csv'               # 여기
+# train_non_fn = '../data/mytrain.non-negative.csv'           # 여기
 rec_train_neg_fn = '../record/train.negative.texts.txt'
 rec_train_non_fn = '../record/train.non-negative.texts.txt'
 
@@ -74,8 +74,8 @@ tmp = read_train_data(train_neg_fn, tk_case, gram_num, rec_train_neg_fn, False)
 train_neg_texts = tmp[0]
 main_neg_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
-tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, True)
-# tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False)
+tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, True) # 여기
+# tmp = read_train_data(train_non_fn, tk_case, gram_num, rec_train_non_fn, False) # 여기
 train_non_texts = tmp[0]
 main_non_cases_count_dict = modelizer.sort_word_cases(tmp[1], default_sort_order)
 
@@ -90,31 +90,35 @@ if run_case == True:
     name = '../analysis/main/main.csv'
     # recorder.init_test_analysis(name)
     
-    modelizer.finalize_model(tmp_model, high_freq, low_freq, tmp_neg_count_dict, tmp_non_count_dict, run_case, default_sort_order)
-    recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
+    while high_freq >= 230:
 
-    # new RF ================================================================================================================
-    train_samples = []
-    train_samples_classes = []
+        modelizer.finalize_model(tmp_model, high_freq, low_freq, tmp_neg_count_dict, tmp_non_count_dict, run_case, default_sort_order)
+        recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
 
-    modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_neg_texts, 1)
-    modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_non_texts, 0)
+        # new RF ================================================================================================================
+        train_samples = []
+        train_samples_classes = []
 
-    # print("> scaling sample features")
-    # train_samples = StandardScaler().fit(train_samples).transform(train_samples)
-    recorder.record_samples(train_samples, train_samples_classes, 'train.samples-model')
+        modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_neg_texts, 1)
+        modelizer.mk_samples(train_samples, train_samples_classes, tmp_model, train_non_texts, 0)
 
-    print("> building random forest with scaled samples")
-    for i in range(1):
-        clf = RandomForestClassifier(n_estimators=1000, random_state=0)
-        clf.fit(train_samples, train_samples_classes)
+        # print("> scaling sample features")
+        # train_samples = StandardScaler().fit(train_samples).transform(train_samples)
+        recorder.record_samples(train_samples, train_samples_classes, 'train.samples-model')
 
-        predictor.test_random_forest(clf, tmp_model)
-    
-    # end new RF ============================================================================================================
+        print("> building random forest with scaled samples")
+        for i in range(1):
+            clf = RandomForestClassifier(n_estimators=10000, criterion="entropy", max_depth=None, random_state=0)  # 여기
+            clf.fit(train_samples, train_samples_classes)
 
-    # exec(open("predictor.py").read())
-    print()
+            predictor.test_random_forest(clf, tmp_model)
+        
+        # end new RF ============================================================================================================
+
+        # exec(open("predictor.py").read())
+        print()
+
+        high_freq -= 200
 else:
     # train high freq
     name = '../analysis/case6/high-freq.csv'
