@@ -95,7 +95,7 @@ def get_model(model_fn):
 def test_random_forest(clf, tmp_model):
     # main settings
     gram_num = 2
-    tk_case = False
+    tk_case = True
 
     # case settings
     test_neg_fn = '../data/test.negative.csv'

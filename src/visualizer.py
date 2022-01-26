@@ -9,6 +9,8 @@ def plot_graph(name):
         stat = {}
         res = {}
 
+        x_num = []
+
         tp = []
         fn = []
         fp = []
@@ -34,6 +36,7 @@ def plot_graph(name):
                 continue
 
             
+            x_num.append(int(lines[0].split('/')[0]))
             tp.append(float(lines[1]))
             fn.append(float(lines[2]))
             fp.append(float(lines[3]))
@@ -53,9 +56,9 @@ def plot_graph(name):
         res['precision'] = get_average(precision)
         res['recall'] = get_average(recall)
 
-        folders = name.split('/')
-        file = folders[3].split('.')
-        title = file[0]
+        # folders = name.split('/')
+        # file = folders[3].split('.')
+        # title = file[0]
 
         # x = np.arange(4)
         # stats = list(stat.keys())
@@ -85,7 +88,8 @@ def plot_graph(name):
 
         # plt.show()
 
-        x = ['c1', 'c2', 'c3', 'c4']
+        # x = ['c1', 'c2', 'c3', 'c4']
+        x = x_num
         acc_y = accuracy
         prec_y = precision
         rec_y = recall
