@@ -90,7 +90,7 @@ if run_case == True:
     name = '../analysis/main/main.csv'
     # recorder.init_test_analysis(name)
     
-    while low_freq <= 240:
+    while high_freq >= 200:
 
         modelizer.finalize_model(tmp_model, high_freq, low_freq, tmp_neg_count_dict, tmp_non_count_dict, run_case, default_sort_order)
         recorder.direct_test(name, str(high_freq)+'/'+str(low_freq))
@@ -118,7 +118,7 @@ if run_case == True:
         # exec(open("predictor.py").read())
         print()
 
-        low_freq += 10
+        high_freq -= 100
 else:
     # train high freq
     name = '../analysis/case6/high-freq.csv'
