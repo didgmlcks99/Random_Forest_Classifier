@@ -108,7 +108,7 @@ if run_case == True:
 
         print("> building random forest with scaled samples")
         for i in range(1):
-            clf = RandomForestClassifier(n_estimators=10000, criterion="entropy", max_depth=None, random_state=0)  # 여기
+            clf = RandomForestClassifier(n_estimators=100, criterion="entropy", max_depth=None, random_state=0)  # 여기
             clf.fit(train_samples, train_samples_classes)
 
             predictor.test_random_forest(clf, tmp_model)

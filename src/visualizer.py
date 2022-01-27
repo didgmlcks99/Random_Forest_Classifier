@@ -36,7 +36,7 @@ def plot_graph(name):
                 continue
 
             
-            x_num.append(int(lines[0].split('/')[0]))
+            x_num.append(int(lines[0].split('/')[1]))
             tp.append(float(lines[1]))
             fn.append(float(lines[2]))
             fp.append(float(lines[3]))
